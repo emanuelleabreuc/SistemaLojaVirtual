@@ -1,6 +1,8 @@
-﻿using SistemaLojaVirtual.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace LojaVirtual.Models
+namespace SistemaLojaVirtual.Models
 {
     public class PessoaFisica : Cliente
     {
