@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SistemaLojaVirtual.Models
 {
-    class PessoaJuridica
+    public class PessoaJuridica : Cliente
     {
         public string Cnpj { get; set; } = "";
         public override string Documento => Cnpj;
