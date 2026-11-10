@@ -14,6 +14,8 @@ namespace SistemaLojaVirtual.Data
         public DbSet<Endereco> Enderecos { get; set; } = null!;
         public DbSet<Pedido> Pedidos { get; set; } = null!;
         public DbSet<ItemPedido> ItemPedidos { get; set; } = null!;
+
+
         
 
 
