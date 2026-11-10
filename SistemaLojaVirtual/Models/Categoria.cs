@@ -1,4 +1,4 @@
-﻿namespace LojaVirtual.Models
+﻿namespace SistemaLojaVirtual.Models
 {
     public class Categoria
     {
