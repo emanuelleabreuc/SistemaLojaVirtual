@@ -1,12 +1,13 @@
 ﻿<Window x:Class="SistemaLojaVirtual.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SistemaLojaVirtual"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="Sistema Loja Virtual" Height="600" Width="1050"
+        WindowStartupLocation="CenterScreen">
+    <TabControl x:Name="abas" SelectionChanged="Abas_SelectionChanged" Margin="6">
+        <TabItem x:Name="abaPedidos" Header="Pedidos" />
+        <TabItem x:Name="abaClientes" Header="Clientes" />
+        <TabItem x:Name="abaProdutos" Header="Produtos" />
+        <TabItem x:Name="abaCategorias" Header="Categorias" />
+        <TabItem x:Name="abaRelatorios" Header="Relatórios (SQL)" />
+    </TabControl>
 </Window>

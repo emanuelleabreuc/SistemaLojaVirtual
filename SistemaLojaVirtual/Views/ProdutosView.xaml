@@ -1,0 +1,49 @@
+<UserControl x:Class="SistemaLojaVirtual.Views.ProdutosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Header="Novo produto" Grid.Column="0" Margin="0,0,10,0">
+            <DockPanel Margin="8" LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="Nome" />
+                    <TextBox x:Name="txtNome" Margin="0,2,0,8" />
+
+                    <TextBlock Text="Preço (R$)" />
+                    <TextBox x:Name="txtPreco" Margin="0,2,0,8" />
+
+                    <TextBlock Text="Estoque inicial" />
+                    <TextBox x:Name="txtEstoque" Margin="0,2,0,8" Text="0" />
+
+                    <TextBlock Text="Categorias (segure Ctrl para marcar várias)" TextWrapping="Wrap" />
+                </StackPanel>
+                <Button DockPanel.Dock="Bottom" Content="Cadastrar" Click="Cadastrar_Click" Padding="6" Margin="0,8,0,0" />
+                <ListBox x:Name="lstCategorias" SelectionMode="Extended" DisplayMemberPath="Nome"
+                         MinHeight="80" Margin="0,2,0,0" />
+            </DockPanel>
+        </GroupBox>
+
+        <DockPanel Grid.Column="1">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                <TextBlock Text="Repor estoque:" VerticalAlignment="Center" Margin="0,0,6,0" />
+                <TextBox x:Name="txtReposicao" Width="60" Margin="0,0,6,0" VerticalContentAlignment="Center" />
+                <Button Content="Repor" Padding="10,4" Margin="0,0,16,0" Click="ReporEstoque_Click" />
+                <Button Content="Excluir selecionado" Padding="10,4" Click="Excluir_Click" />
+            </StackPanel>
+            <DataGrid x:Name="gridProdutos" AutoGenerateColumns="False" IsReadOnly="True"
+                      SelectionMode="Single" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*" />
+                    <DataGridTextColumn Header="Preço" Binding="{Binding Preco, StringFormat=C, ConverterCulture=pt-BR}" />
+                    <DataGridTextColumn Header="Estoque" Binding="{Binding Estoque}" />
+                    <DataGridTextColumn Header="Categorias" Binding="{Binding Categorias}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+</UserControl>

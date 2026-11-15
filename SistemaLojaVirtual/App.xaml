@@ -1,9 +1,8 @@
 ﻿<Application x:Class="SistemaLojaVirtual.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SistemaLojaVirtual"
-             StartupUri="MainWindow.xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Sem StartupUri: a MainWindow é criada pela injeção de dependência em App.xaml.cs -->
     <Application.Resources>
-         
+
     </Application.Resources>
 </Application>
