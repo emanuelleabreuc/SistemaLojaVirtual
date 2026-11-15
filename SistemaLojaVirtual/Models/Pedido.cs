@@ -9,7 +9,7 @@ namespace SistemaLojaVirtual.Models
     public class Pedido
     {
         public int Id { get; set; }
-        public bool pago { get; set; }
+        public bool Pago { get; set; }
         public DateTime data { get; set; }
 
         public int ClienteId { get; set; }

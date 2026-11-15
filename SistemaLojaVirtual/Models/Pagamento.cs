@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SistemaLojaVirtual.Models
 {
-    public abstract class Pagamento : Ipagamento
+    public abstract class Pagamento : IPagamento
     {
         public int Id { get; set; }
         public decimal Valor { get; set; }
