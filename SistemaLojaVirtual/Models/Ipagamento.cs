@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SistemaLojaVirtual.Models
 {
-    public interface Ipagamento
+    public interface IPagamento
     {
         bool processar();
 
