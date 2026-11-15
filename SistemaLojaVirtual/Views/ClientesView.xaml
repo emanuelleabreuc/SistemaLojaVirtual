@@ -1,0 +1,55 @@
+<UserControl x:Class="SistemaLojaVirtual.Views.ClientesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Header="Novo cliente" Grid.Column="0" Margin="0,0,10,0">
+            <StackPanel Margin="8">
+                <TextBlock Text="Tipo" />
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,8">
+                    <RadioButton x:Name="rbPessoaFisica" Content="Pessoa Física" IsChecked="True"
+                                 Checked="TipoCliente_Checked" Margin="0,0,12,0" />
+                    <RadioButton x:Name="rbPessoaJuridica" Content="Pessoa Jurídica"
+                                 Checked="TipoCliente_Checked" />
+                </StackPanel>
+
+                <TextBlock Text="Nome" />
+                <TextBox x:Name="txtNome" Margin="0,2,0,8" />
+
+                <TextBlock Text="E-mail" />
+                <TextBox x:Name="txtEmail" Margin="0,2,0,8" />
+
+                <TextBlock x:Name="lblDocumento" Text="CPF" />
+                <TextBox x:Name="txtDocumento" Margin="0,2,0,8" />
+
+                <TextBlock Text="Rua" />
+                <TextBox x:Name="txtRua" Margin="0,2,0,8" />
+
+                <TextBlock Text="Cidade" />
+                <TextBox x:Name="txtCidade" Margin="0,2,0,12" />
+
+                <Button Content="Cadastrar" Click="Cadastrar_Click" Padding="6" />
+            </StackPanel>
+        </GroupBox>
+
+        <DockPanel Grid.Column="1">
+            <Button DockPanel.Dock="Bottom" Content="Excluir selecionado" HorizontalAlignment="Right"
+                    Margin="0,8,0,0" Padding="10,4" Click="Excluir_Click" />
+            <DataGrid x:Name="gridClientes" AutoGenerateColumns="False" IsReadOnly="True"
+                      SelectionMode="Single" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*" />
+                    <DataGridTextColumn Header="E-mail" Binding="{Binding Email}" Width="*" />
+                    <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" />
+                    <DataGridTextColumn Header="CPF/CNPJ" Binding="{Binding Documento}" />
+                    <DataGridTextColumn Header="Cidade" Binding="{Binding Cidade}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+</UserControl>

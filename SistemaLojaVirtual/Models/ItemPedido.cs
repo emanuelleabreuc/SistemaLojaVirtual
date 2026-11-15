@@ -13,7 +13,7 @@ namespace SistemaLojaVirtual.Models
         public int PedidoId { get; set; }
         public Pedido Pedido { get; set; } = null!;
 
-        public int ProdtuoId { get; set; }
+        public int ProdutoId { get; set; }
         public Produto Produto { get; set; } = null!;
 
         public decimal subtotal => Quantidade * PrecoUnitario;
