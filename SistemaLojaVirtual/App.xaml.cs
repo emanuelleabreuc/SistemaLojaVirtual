@@ -38,6 +38,7 @@ namespace SistemaLojaVirtual
             servicos.AddTransient<RelatorioController>();
 
             // Views
+            servicos.AddTransient<LojaView>();
             servicos.AddTransient<ClientesView>();
             servicos.AddTransient<ProdutosView>();
             servicos.AddTransient<CategoriasView>();

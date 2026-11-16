@@ -1,0 +1,215 @@
+<UserControl x:Class="SistemaLojaVirtual.Views.LojaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="340" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= Coluna 1: categorias ================= -->
+        <Border Grid.Column="0" Style="{StaticResource Cartao}" VerticalAlignment="Top" Padding="10">
+            <StackPanel>
+                <TextBlock Text="CATEGORIAS" Style="{StaticResource Rotulo}" Margin="10,4,0,8" />
+                <ListBox x:Name="lstCategorias" BorderThickness="0" DisplayMemberPath="Nome"
+                         ItemContainerStyle="{StaticResource ItemCategoria}"
+                         SelectionChanged="Filtro_Changed" />
+            </StackPanel>
+        </Border>
+
+        <!-- ================= Coluna 2: vitrine ================= -->
+        <DockPanel Grid.Column="1" Margin="20,0">
+            <Grid DockPanel.Dock="Top" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="260" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Produtos" Style="{StaticResource TituloPagina}" />
+                    <TextBlock x:Name="lblQuantidadeProdutos" Foreground="{StaticResource CorTextoSuave}" />
+                </StackPanel>
+
+                <!-- Campo de busca com texto de exemplo -->
+                <Border Grid.Column="1" Background="White" BorderBrush="{StaticResource CorBorda}" BorderThickness="1"
+                        CornerRadius="20" Padding="12,0" VerticalAlignment="Center" Height="38">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="&#xE721;" FontFamily="{StaticResource Icones}" VerticalAlignment="Center"
+                                   Foreground="{StaticResource CorTextoSuave}" />
+                        <TextBlock x:Name="lblDicaBusca" Grid.Column="1" Text="Buscar produtos..." Margin="8,0,0,0"
+                                   VerticalAlignment="Center" Foreground="#9CA3AF" IsHitTestVisible="False" />
+                        <TextBox x:Name="txtBusca" Grid.Column="1" Margin="4,0,0,0" BorderThickness="0"
+                                 Background="Transparent" TextChanged="Filtro_Changed" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid>
+                <TextBlock x:Name="lblVitrineVazia" Text="Nenhum produto encontrado."
+                           Foreground="{StaticResource CorTextoSuave}" FontSize="14"
+                           HorizontalAlignment="Center" Margin="0,60,0,0" Visibility="Collapsed" />
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="itensVitrine">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <!-- Card de cada produto -->
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Cartao}" Width="210" Margin="0,0,16,16" Padding="0">
+                                    <StackPanel>
+                                        <!-- "Foto" do produto: cor + inicial -->
+                                        <Border Height="120" CornerRadius="10,10,0,0" Background="{Binding CorFundo}">
+                                            <Grid>
+                                                <TextBlock Text="{Binding Inicial}" FontSize="48" FontWeight="Bold"
+                                                           Foreground="White" Opacity="0.9"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                <Border Background="{StaticResource CorPerigo}" CornerRadius="4" Padding="8,2"
+                                                        HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
+                                                        Visibility="{Binding VisibilidadeEsgotado}">
+                                                    <TextBlock Text="ESGOTADO" Foreground="White" FontSize="10" FontWeight="Bold" />
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+
+                                        <StackPanel Margin="14,12,14,14">
+                                            <TextBlock Text="{Binding CategoriasTexto}" FontSize="11"
+                                                       Foreground="{StaticResource CorTextoSuave}" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding Nome}" FontSize="14" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource CorTexto}" TextWrapping="Wrap"
+                                                       Height="38" Margin="0,2,0,6" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding Preco, StringFormat=C}" FontSize="20" FontWeight="Bold"
+                                                       Foreground="{StaticResource CorTexto}" />
+                                            <TextBlock Text="{Binding TextoParcelamento}" FontSize="11"
+                                                       Foreground="{StaticResource CorSucesso}" />
+                                            <TextBlock Text="{Binding TextoEstoque}" FontSize="11" Margin="0,2,0,10"
+                                                       Foreground="{StaticResource CorTextoSuave}" />
+                                            <Button Tag="{Binding}" Click="AdicionarAoCarrinho_Click"
+                                                    IsEnabled="{Binding Disponivel}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="&#xE7BF;" FontFamily="{StaticResource Icones}"
+                                                               VerticalAlignment="Center" Margin="0,0,8,0" />
+                                                    <TextBlock Text="Adicionar" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </DockPanel>
+
+        <!-- ================= Coluna 3: carrinho + finalização ================= -->
+        <Border Grid.Column="2" Style="{StaticResource Cartao}" Padding="0">
+            <DockPanel>
+                <!-- Cabeçalho -->
+                <Border DockPanel.Dock="Top" Padding="16,14" BorderBrush="{StaticResource CorBorda}" BorderThickness="0,0,0,1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE7BF;" FontFamily="{StaticResource Icones}" FontSize="18"
+                                   VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <TextBlock Text="Seu carrinho" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" />
+                        <TextBlock x:Name="lblItensCarrinho" Foreground="{StaticResource CorTextoSuave}"
+                                   VerticalAlignment="Center" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Rodapé: total, cliente, pagamento e botão de finalizar -->
+                <Border DockPanel.Dock="Bottom" Padding="16" Background="#F9FAFB" CornerRadius="0,0,10,10"
+                        BorderBrush="{StaticResource CorBorda}" BorderThickness="0,1,0,0">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,14">
+                            <TextBlock Text="Total" FontSize="15" FontWeight="SemiBold" />
+                            <TextBlock x:Name="lblTotal" Text="R$ 0,00" FontSize="22" FontWeight="Bold"
+                                       HorizontalAlignment="Right" />
+                        </Grid>
+
+                        <TextBlock Text="CLIENTE" Style="{StaticResource Rotulo}" />
+                        <ComboBox x:Name="cmbCliente" DisplayMemberPath="Nome" />
+
+                        <TextBlock Text="FORMA DE PAGAMENTO" Style="{StaticResource Rotulo}" />
+                        <StackPanel Orientation="Horizontal" Margin="0,2,0,8">
+                            <RadioButton x:Name="rbCartao" Content="Cartão de crédito" IsChecked="True"
+                                         Checked="FormaPagamento_Checked" />
+                            <RadioButton x:Name="rbPix" Content="Pix" Checked="FormaPagamento_Checked" />
+                        </StackPanel>
+                        <ComboBox x:Name="cmbParcelas" />
+                        <StackPanel x:Name="painelPix" Visibility="Collapsed">
+                            <TextBlock Text="CHAVE PIX" Style="{StaticResource Rotulo}" />
+                            <TextBox x:Name="txtChavePix" />
+                        </StackPanel>
+
+                        <Button x:Name="btnFinalizar" Style="{StaticResource BotaoSucesso}" Click="Finalizar_Click"
+                                Margin="0,4,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE73E;" FontFamily="{StaticResource Icones}"
+                                           VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBlock Text="Finalizar compra" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- Itens do carrinho -->
+                <Grid>
+                    <StackPanel x:Name="painelCarrinhoVazio" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="&#xE7BF;" FontFamily="{StaticResource Icones}" FontSize="40"
+                                   Foreground="#D1D5DB" HorizontalAlignment="Center" />
+                        <TextBlock Text="Seu carrinho está vazio" Foreground="{StaticResource CorTextoSuave}"
+                                   Margin="0,8,0,0" HorizontalAlignment="Center" />
+                    </StackPanel>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="itensCarrinho" Margin="16,8">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="0,10" BorderBrush="{StaticResource CorBorda}" BorderThickness="0,0,0,1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Text="{Binding Produto}" FontWeight="SemiBold"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <Button Grid.Column="1" Content="&#xE711;" Style="{StaticResource BotaoIcone}"
+                                                    Foreground="{StaticResource CorPerigo}" BorderThickness="0"
+                                                    Tag="{Binding}" Click="RemoverItem_Click" ToolTip="Remover" />
+
+                                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,6,0,0">
+                                                <Button Content="&#xE738;" Style="{StaticResource BotaoIcone}"
+                                                        Tag="{Binding}" Click="Diminuir_Click" />
+                                                <TextBlock Text="{Binding Quantidade}" Width="30" TextAlignment="Center"
+                                                           VerticalAlignment="Center" FontWeight="SemiBold" />
+                                                <Button Content="&#xE710;" Style="{StaticResource BotaoIcone}"
+                                                        Tag="{Binding}" Click="Aumentar_Click" />
+                                                <TextBlock Text="{Binding PrecoUnitario, StringFormat='x {0:C}'}" Margin="8,0,0,0"
+                                                           VerticalAlignment="Center" Foreground="{StaticResource CorTextoSuave}" />
+                                            </StackPanel>
+                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Subtotal, StringFormat=C}"
+                                                       FontWeight="Bold" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

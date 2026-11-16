@@ -1,86 +1,57 @@
 <UserControl x:Class="SistemaLojaVirtual.Views.PedidosView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="380" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <DockPanel Margin="20">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Pedidos" Style="{StaticResource TituloPagina}" />
+            <TextBlock Text="Histórico de todas as compras realizadas na loja." Style="{StaticResource SubtituloPagina}" />
+        </StackPanel>
 
-        <!-- Montagem do pedido -->
-        <GroupBox Header="Novo pedido" Grid.Column="0" Margin="0,0,10,0">
-            <DockPanel Margin="8">
-                <StackPanel DockPanel.Dock="Top">
-                    <TextBlock Text="Cliente" />
-                    <ComboBox x:Name="cmbCliente" DisplayMemberPath="Nome" Margin="0,2,0,8" />
-
-                    <TextBlock Text="Produto" />
-                    <Grid Margin="0,2,0,8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <ComboBox x:Name="cmbProduto" Grid.Column="0" />
-                        <TextBox x:Name="txtQuantidade" Grid.Column="1" Text="1" Margin="4,0"
-                                 VerticalContentAlignment="Center" ToolTip="Quantidade" />
-                        <Button Grid.Column="2" Content="Adicionar" Padding="8,2" Click="AdicionarItem_Click" />
-                    </Grid>
+        <!-- Indicadores -->
+        <UniformGrid DockPanel.Dock="Top" Columns="3" Margin="0,0,0,16">
+            <Border Style="{StaticResource Cartao}" Margin="0,0,12,0">
+                <StackPanel>
+                    <TextBlock Text="PEDIDOS" Style="{StaticResource Rotulo}" />
+                    <TextBlock x:Name="lblTotalPedidos" Text="0" FontSize="26" FontWeight="Bold" />
                 </StackPanel>
-
-                <StackPanel DockPanel.Dock="Bottom">
-                    <Button Content="Remover item selecionado" HorizontalAlignment="Right" Padding="8,2"
-                            Margin="0,4,0,8" Click="RemoverItem_Click" />
-                    <TextBlock x:Name="lblTotal" Text="Total: R$ 0,00" FontSize="16" FontWeight="Bold" Margin="0,0,0,8" />
-
-                    <GroupBox Header="Pagamento">
-                        <StackPanel Margin="6">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                                <RadioButton x:Name="rbCartao" Content="Cartão" IsChecked="True"
-                                             Checked="FormaPagamento_Checked" Margin="0,0,12,0" />
-                                <RadioButton x:Name="rbPix" Content="Pix" Checked="FormaPagamento_Checked" />
-                            </StackPanel>
-                            <StackPanel x:Name="painelCartao" Orientation="Horizontal">
-                                <TextBlock Text="Parcelas (1 a 12):" VerticalAlignment="Center" Margin="0,0,6,0" />
-                                <TextBox x:Name="txtParcelas" Width="50" Text="1" />
-                            </StackPanel>
-                            <StackPanel x:Name="painelPix" Visibility="Collapsed">
-                                <TextBlock Text="Chave Pix" />
-                                <TextBox x:Name="txtChavePix" />
-                            </StackPanel>
-                        </StackPanel>
-                    </GroupBox>
-
-                    <Button Content="Finalizar pedido" FontWeight="Bold" Padding="6" Margin="0,10,0,0"
-                            Click="Finalizar_Click" />
+            </Border>
+            <Border Style="{StaticResource Cartao}" Margin="6,0">
+                <StackPanel>
+                    <TextBlock Text="FATURAMENTO" Style="{StaticResource Rotulo}" />
+                    <TextBlock x:Name="lblFaturamento" Text="R$ 0,00" FontSize="26" FontWeight="Bold"
+                               Foreground="{StaticResource CorSucesso}" />
                 </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Cartao}" Margin="12,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="TICKET MÉDIO" Style="{StaticResource Rotulo}" />
+                    <TextBlock x:Name="lblTicketMedio" Text="R$ 0,00" FontSize="26" FontWeight="Bold" />
+                </StackPanel>
+            </Border>
+        </UniformGrid>
 
-                <DataGrid x:Name="gridCarrinho" AutoGenerateColumns="False" IsReadOnly="True"
-                          SelectionMode="Single" CanUserAddRows="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Produto" Binding="{Binding Produto}" Width="*" />
-                        <DataGridTextColumn Header="Qtd" Binding="{Binding Quantidade}" />
-                        <DataGridTextColumn Header="Unitário" Binding="{Binding PrecoUnitario, StringFormat=C, ConverterCulture=pt-BR}" />
-                        <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal, StringFormat=C, ConverterCulture=pt-BR}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DockPanel>
-        </GroupBox>
-
-        <!-- Histórico -->
-        <GroupBox Header="Pedidos realizados" Grid.Column="1">
-            <DataGrid x:Name="gridPedidos" AutoGenerateColumns="False" IsReadOnly="True" Margin="4"
-                      CanUserAddRows="False">
+        <Border Style="{StaticResource Cartao}" Padding="0">
+            <DataGrid x:Name="gridPedidos" AutoGenerateColumns="False" IsReadOnly="True"
+                      CanUserAddRows="False" BorderThickness="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Nº" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat=dd/MM/yyyy HH:mm}" />
+                    <DataGridTextColumn Header="Nº" Binding="{Binding Id}" Width="60" />
+                    <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat=dd/MM/yyyy HH:mm}" Width="140" />
                     <DataGridTextColumn Header="Cliente" Binding="{Binding Cliente}" Width="*" />
-                    <DataGridTextColumn Header="Itens" Binding="{Binding QuantidadeItens}" />
-                    <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat=C, ConverterCulture=pt-BR}" />
-                    <DataGridTextColumn Header="Pagamento" Binding="{Binding FormaPagamento}" />
-                    <DataGridCheckBoxColumn Header="Pago" Binding="{Binding Pago}" />
+                    <DataGridTextColumn Header="Itens" Binding="{Binding QuantidadeItens}" Width="70" />
+                    <DataGridTextColumn Header="Pagamento" Binding="{Binding FormaPagamento}" Width="130" />
+                    <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat=C}" Width="120" />
+                    <DataGridTemplateColumn Header="Status" Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Background="#DCFCE7" CornerRadius="10" Padding="10,2" HorizontalAlignment="Left">
+                                    <TextBlock Text="Pago" Foreground="{StaticResource CorSucessoEscura}"
+                                               FontSize="11" FontWeight="SemiBold" />
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </GroupBox>
-    </Grid>
+        </Border>
+    </DockPanel>
 </UserControl>

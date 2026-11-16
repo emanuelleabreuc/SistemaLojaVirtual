@@ -34,6 +34,17 @@ namespace SistemaLojaVirtual.Controllers
                 string.Join(", ", p.Categorias.Select(c => c.Nome)))).ToList();
         }
 
+        // Vitrine da loja: todos os produtos com suas categorias (para o filtro lateral)
+        public async Task<List<Produto>> ListarVitrineAsync()
+        {
+            using var db = await _contextFactory.CreateDbContextAsync();
+            return await db.Produtos
+                .Include(p => p.Categorias)
+                .AsNoTracking()
+                .OrderBy(p => p.Nome)
+                .ToListAsync();
+        }
+
         public async Task<List<Produto>> ListarComEstoqueAsync()
         {
             using var db = await _contextFactory.CreateDbContextAsync();
