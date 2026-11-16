@@ -1,11 +1,14 @@
 <UserControl x:Class="SistemaLojaVirtual.Views.RelatoriosView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DockPanel Margin="10">
-        <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,10" Foreground="Gray"
-                   Text="Funcionalidades implementadas com SQL puro (Database.SqlQuery e Database.ExecuteSql), em vez de LINQ." />
+    <DockPanel Margin="20">
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock Text="Relatórios" Style="{StaticResource TituloPagina}" />
+            <TextBlock Text="Funcionalidades implementadas com SQL puro (Database.SqlQuery e Database.ExecuteSql), em vez de LINQ."
+                       Style="{StaticResource SubtituloPagina}" />
+        </StackPanel>
 
-        <GroupBox DockPanel.Dock="Top" Header="Reajuste de preços por categoria (UPDATE via SQL)" Margin="0,0,0,10">
+        <GroupBox DockPanel.Dock="Top" Header="Reajuste de preços por categoria (UPDATE via SQL)" Margin="0,0,0,16">
             <StackPanel Orientation="Horizontal" Margin="8">
                 <TextBlock Text="Categoria:" VerticalAlignment="Center" Margin="0,0,6,0" />
                 <ComboBox x:Name="cmbCategoria" Width="180" DisplayMemberPath="Nome" Margin="0,0,12,0" />
@@ -17,8 +20,10 @@
         </GroupBox>
 
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
-            <Button Content="Vendas por cliente" Padding="10,4" Margin="0,0,8,0" Click="VendasPorCliente_Click" />
-            <Button Content="Top 10 produtos mais vendidos" Padding="10,4" Click="ProdutosMaisVendidos_Click" />
+            <Button Content="Vendas por cliente" Style="{StaticResource BotaoSecundario}" Padding="10,4" Margin="0,0,8,0"
+                    Click="VendasPorCliente_Click" />
+            <Button Content="Top 10 produtos mais vendidos" Style="{StaticResource BotaoSecundario}" Padding="10,4"
+                    Click="ProdutosMaisVendidos_Click" />
             <TextBlock x:Name="lblRelatorio" VerticalAlignment="Center" FontWeight="Bold" Margin="16,0,0,0" />
         </StackPanel>
 

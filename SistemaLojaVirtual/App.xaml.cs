@@ -1,9 +1,10 @@
-﻿using System.Windows;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using SistemaLojaVirtual.Controllers;
 using SistemaLojaVirtual.Data;
 using SistemaLojaVirtual.Views;
+using System.Windows;
 
 namespace SistemaLojaVirtual
 {
@@ -38,6 +39,7 @@ namespace SistemaLojaVirtual
             servicos.AddTransient<RelatorioController>();
 
             // Views
+            servicos.AddTransient<LojaView>();
             servicos.AddTransient<ClientesView>();
             servicos.AddTransient<ProdutosView>();
             servicos.AddTransient<CategoriasView>();

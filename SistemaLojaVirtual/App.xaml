@@ -4,5 +4,244 @@
     <!-- Sem StartupUri: a MainWindow é criada pela injeção de dependência em App.xaml.cs -->
     <Application.Resources>
 
+        <!-- ===================== Paleta de cores ===================== -->
+        <SolidColorBrush x:Key="CorTopo" Color="#1E1B4B" />
+        <SolidColorBrush x:Key="CorTopoClara" Color="#312E81" />
+        <SolidColorBrush x:Key="CorDestaque" Color="#F97316" />
+        <SolidColorBrush x:Key="CorDestaqueEscura" Color="#EA580C" />
+        <SolidColorBrush x:Key="CorSucesso" Color="#16A34A" />
+        <SolidColorBrush x:Key="CorSucessoEscura" Color="#15803D" />
+        <SolidColorBrush x:Key="CorPerigo" Color="#DC2626" />
+        <SolidColorBrush x:Key="CorFundo" Color="#F3F4F6" />
+        <SolidColorBrush x:Key="CorCartao" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="CorBorda" Color="#E5E7EB" />
+        <SolidColorBrush x:Key="CorTexto" Color="#111827" />
+        <SolidColorBrush x:Key="CorTextoSuave" Color="#6B7280" />
+        <SolidColorBrush x:Key="CorSelecao" Color="#EEF2FF" />
+
+        <FontFamily x:Key="Icones">Segoe MDL2 Assets</FontFamily>
+
+        <!-- ===================== Textos ===================== -->
+        <Style x:Key="TituloPagina" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource CorTexto}" />
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
+        <Style x:Key="SubtituloPagina" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="{StaticResource CorTextoSuave}" />
+            <Setter Property="Margin" Value="0,0,0,16" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style x:Key="Rotulo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource CorTextoSuave}" />
+            <Setter Property="Margin" Value="0,0,0,3" />
+        </Style>
+
+        <!-- ===================== Cartão branco (caixa com sombra) ===================== -->
+        <Style x:Key="Cartao" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CorCartao}" />
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="12" ShadowDepth="1" Opacity="0.08" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- GroupBox vira um cartão com título (usado nas telas de cadastro) -->
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="0,0,16,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Border Style="{StaticResource Cartao}">
+                            <DockPanel>
+                                <ContentPresenter DockPanel.Dock="Top" ContentSource="Header" Margin="0,0,0,10"
+                                                  TextElement.FontSize="15" TextElement.FontWeight="Bold"
+                                                  TextElement.Foreground="{StaticResource CorTexto}" />
+                                <ContentPresenter />
+                            </DockPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ===================== Botões ===================== -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource CorDestaque}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="14,7" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="fundo" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="fundo" Property="Opacity" Value="0.88" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="fundo" Property="Opacity" Value="0.75" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="fundo" Property="Background" Value="#D1D5DB" />
+                                <Setter Property="Foreground" Value="#6B7280" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BotaoSucesso" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource CorSucesso}" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Padding" Value="14,11" />
+        </Style>
+
+        <Style x:Key="BotaoSecundario" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource CorTexto}" />
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="BotaoPerigo" TargetType="Button" BasedOn="{StaticResource BotaoSecundario}">
+            <Setter Property="Foreground" Value="{StaticResource CorPerigo}" />
+        </Style>
+
+        <!-- Botão pequeno e quadrado (+, −, X do carrinho) -->
+        <Style x:Key="BotaoIcone" TargetType="Button" BasedOn="{StaticResource BotaoSecundario}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="FontFamily" Value="{StaticResource Icones}" />
+            <Setter Property="FontSize" Value="10" />
+        </Style>
+
+        <!-- ===================== Campos ===================== -->
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="6,5" />
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Padding" Value="6,5" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="0,0,14,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <!-- ===================== Tabelas ===================== -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}" />
+            <Setter Property="RowBackground" Value="White" />
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource CorBorda}" />
+            <Setter Property="HeadersVisibility" Value="Column" />
+            <Setter Property="RowHeight" Value="30" />
+            <Setter Property="ColumnHeaderHeight" Value="34" />
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F9FAFB" />
+            <Setter Property="Foreground" Value="{StaticResource CorTextoSuave}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="8,0" />
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="8,0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource CorSelecao}" />
+                    <Setter Property="Foreground" Value="{StaticResource CorTexto}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ===================== Menu do topo ===================== -->
+        <Style x:Key="ItemMenu" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#C7D2FE" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="GroupName" Value="Menu" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="fundo" Background="Transparent" CornerRadius="6" Padding="14,8" Margin="2,0">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="fundo" Property="Background" Value="{StaticResource CorTopoClara}" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="fundo" Property="Background" Value="{StaticResource CorTopoClara}" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ===================== Filtro de categorias (lateral da loja) ===================== -->
+        <Style x:Key="ItemCategoria" TargetType="ListBoxItem">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="fundo" Background="Transparent" CornerRadius="6" Padding="10,7" Margin="0,1">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="fundo" Property="Background" Value="#F3F4F6" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="fundo" Property="Background" Value="{StaticResource CorSelecao}" />
+                                <Setter Property="Foreground" Value="{StaticResource CorTopoClara}" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Application.Resources>
 </Application>

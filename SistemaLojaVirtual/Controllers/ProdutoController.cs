@@ -33,6 +33,15 @@ namespace SistemaLojaVirtual.Controllers
                 p.Estoque,
                 string.Join(", ", p.Categorias.Select(c => c.Nome)))).ToList();
         }
+        public async Task<List<Produto>> ListarVitrineAsync()
+        {
+            using var db = await _contextFactory.CreateDbContextAsync();
+            return await db.Produtos
+                .Include(p => p.Categorias)
+                .AsNoTracking()
+                .OrderBy(p => p.Nome)
+                .ToListAsync();
+        }
 
         public async Task<List<Produto>> ListarComEstoqueAsync()
         {
