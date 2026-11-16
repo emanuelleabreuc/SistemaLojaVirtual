@@ -41,7 +41,7 @@ namespace SistemaLojaVirtual.Controllers
             var categoria = await db.Categorias.FindAsync(categoriaId)
                 ?? throw new InvalidOperationException("Categoria não encontrada.");
 
-            // Remove só o vínculo NxN; os produtos continuam existindo
+            
             db.Categorias.Remove(categoria);
             await db.SaveChangesAsync();
         }

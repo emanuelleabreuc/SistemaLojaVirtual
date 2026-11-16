@@ -4,7 +4,7 @@ using SistemaLojaVirtual.Models;
 
 namespace SistemaLojaVirtual.Controllers
 {
-    // Linha exibida na tabela de produtos da tela
+    
     public record ProdutoResumo(int Id, string Nome, decimal Preco, int Estoque, string Categorias);
 
     public class ProdutoController

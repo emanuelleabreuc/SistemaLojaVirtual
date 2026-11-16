@@ -10,7 +10,7 @@ namespace SistemaLojaVirtual.Controllers
         public decimal Subtotal => Quantidade * PrecoUnitario;
     }
 
-    // Linha exibida no histórico de pedidos
+    
     public record PedidoResumo(int Id, DateTime Data, string Cliente, int QuantidadeItens, decimal Total, string FormaPagamento, bool Pago);
 
     public class PedidoController
@@ -22,8 +22,7 @@ namespace SistemaLojaVirtual.Controllers
             _contextFactory = contextFactory;
         }
 
-        // OCP / LSP: recebe qualquer Pagamento (Cartao, Pix...). Para criar uma nova forma
-        // de pagamento (ex.: Boleto) basta criar a classe, sem alterar este método.
+       
         public async Task<int> FinalizarAsync(int clienteId, IReadOnlyCollection<ItemCarrinho> itens, Pagamento pagamento)
         {
             if (itens.Count == 0)
@@ -34,32 +33,32 @@ namespace SistemaLojaVirtual.Controllers
             var cliente = await db.Clientes.FindAsync(clienteId)
                 ?? throw new InvalidOperationException("Selecione um cliente válido.");
 
-            var pedido = new Pedido { Cliente = cliente, data = DateTime.Now };
+            var pedido = new Pedido { Cliente = cliente, Data = DateTime.Now };
 
             foreach (var item in itens)
             {
                 var produto = await db.Produtos.FindAsync(item.ProdutoId)
                     ?? throw new InvalidOperationException($"Produto {item.Produto} não encontrado.");
 
-                produto.BaixarEstoque(item.Quantidade); // lança exceção se não houver estoque
+                produto.BaixarEstoque(item.Quantidade); // lança exceção se n tiver estoque
 
                 pedido.Itens.Add(new ItemPedido
                 {
                     Produto = produto,
                     Quantidade = item.Quantidade,
-                    PrecoUnitario = produto.Preco // preço do momento da venda
+                    PrecoUnitario = produto.Preco // preco do momento da venda
                 });
             }
 
             pagamento.Valor = pedido.Total;
-            if (!pagamento.processar())
+            if (!pagamento.Processar())
                 throw new InvalidOperationException("Pagamento recusado. Verifique os dados do pagamento.");
 
-            pedido.pagamento = pagamento;
-            pedido.pago = true;
+            pedido.Pagamento = pagamento;
+            pedido.Pago = true;
 
             db.Pedidos.Add(pedido);
-            await db.SaveChangesAsync(); // pedido, itens, pagamento e estoque gravados juntos
+            await db.SaveChangesAsync(); // sincroniza
 
             return pedido.Id;
         }
@@ -71,19 +70,19 @@ namespace SistemaLojaVirtual.Controllers
             var pedidos = await db.Pedidos
                 .Include(p => p.Cliente)
                 .Include(p => p.Itens)
-                .Include(p => p.pagamento)
+                .Include(p => p.Pagamento)
                 .AsNoTracking()
-                .OrderByDescending(p => p.data)
+                .OrderByDescending(p => p.Data)
                 .ToListAsync();
 
             return pedidos.Select(p => new PedidoResumo(
                 p.Id,
-                p.data,
+                p.Data,
                 p.Cliente.Nome,
                 p.Itens.Sum(i => i.Quantidade),
                 p.Total,
-                DescreverPagamento(p.pagamento),
-                p.pago)).ToList();
+                DescreverPagamento(p.Pagamento),
+                p.Pago)).ToList();
         }
 
         private static string DescreverPagamento(Pagamento? pagamento) => pagamento switch

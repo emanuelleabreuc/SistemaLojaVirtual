@@ -12,6 +12,6 @@ namespace SistemaLojaVirtual.Models
         public int PedidoId { get; set; }
         public Pedido Pedido { get; set; } = null!;
 
-        public abstract bool processar();
+        public abstract bool Processar();
     }
 }

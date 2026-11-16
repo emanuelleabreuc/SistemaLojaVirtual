@@ -7,6 +7,6 @@ namespace SistemaLojaVirtual.Models
     public class Pix : Pagamento
     {
         public string Chave { get; set; } = "";
-        public override bool processar() => !string.IsNullOrEmpty(Chave);
+        public override bool Processar() => !string.IsNullOrEmpty(Chave);
     }
 }

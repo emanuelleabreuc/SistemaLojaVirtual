@@ -41,7 +41,7 @@ namespace SistemaLojaVirtual.Data
 
             // 1x1 Pedido <-> Pagamento
             mb.Entity<Pedido>()
-                .HasOne(p => p.pagamento).WithOne(pg => pg.Pedido)
+                .HasOne(p => p.Pagamento).WithOne(pg => pg.Pedido)
                 .HasForeignKey<Pagamento>(pg => pg.PedidoId);
 
             // 1xN Cliente -> Pedidos (não deixa apagar cliente com pedido)

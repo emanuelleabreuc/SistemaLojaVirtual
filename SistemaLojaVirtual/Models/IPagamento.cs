@@ -6,7 +6,7 @@ namespace SistemaLojaVirtual.Models
 {
     public interface IPagamento
     {
-        bool processar();
+        bool Processar();
 
     }
 }

@@ -3,8 +3,7 @@ using SistemaLojaVirtual.Data;
 
 namespace SistemaLojaVirtual.Controllers
 {
-    // Classes de resultado das consultas SQL. Os nomes das propriedades precisam
-    // ser iguais aos apelidos (AS ...) das colunas no SELECT.
+    
     public class VendaPorCliente
     {
         public string Cliente { get; set; } = "";
@@ -20,9 +19,7 @@ namespace SistemaLojaVirtual.Controllers
         public decimal Faturamento { get; set; }
     }
 
-    // Funcionalidade feita com SQL puro (requisito da atividade).
-    // O restante do sistema usa LINQ/EF; aqui as consultas são escritas à mão
-    // e executadas pelo EF com Database.SqlQuery / Database.ExecuteSql.
+    
     public class RelatorioController
     {
         private readonly IDbContextFactory<LojaContext> _contextFactory;
@@ -32,7 +29,7 @@ namespace SistemaLojaVirtual.Controllers
             _contextFactory = contextFactory;
         }
 
-        // SELECT com LEFT JOIN + GROUP BY: total gasto por cliente
+        
         public async Task<List<VendaPorCliente>> VendasPorClienteAsync()
         {
             using var db = await _contextFactory.CreateDbContextAsync();
@@ -49,14 +46,14 @@ namespace SistemaLojaVirtual.Controllers
                            SUM(i.Quantidade * i.PrecoUnitario) AS TotalGasto
                     FROM Pedidos p
                     INNER JOIN ItemPedidos i ON i.PedidoId = p.Id
-                    WHERE p.pago = 1
+                    WHERE p.Pago = 1
                     GROUP BY p.ClienteId
                 ) v ON v.ClienteId = c.Id
                 ORDER BY TotalGasto DESC, c.Nome
                 """).ToListAsync();
         }
 
-        // SELECT TOP + GROUP BY: ranking dos produtos mais vendidos
+        
         public async Task<List<ProdutoMaisVendido>> ProdutosMaisVendidosAsync(int quantidade)
         {
             using var db = await _contextFactory.CreateDbContextAsync();
@@ -78,8 +75,7 @@ namespace SistemaLojaVirtual.Controllers
                 """).ToListAsync();
         }
 
-        // UPDATE em lote: reajusta em X% o preço de todos os produtos de uma categoria.
-        // Os valores entre { } viram parâmetros SQL (@p0, @p1), o que evita SQL Injection.
+        
         public async Task<int> ReajustarPrecosPorCategoriaAsync(int categoriaId, decimal percentual)
         {
             if (percentual <= -100)

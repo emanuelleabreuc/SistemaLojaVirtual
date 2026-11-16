@@ -4,11 +4,10 @@ using SistemaLojaVirtual.Models;
 
 namespace SistemaLojaVirtual.Controllers
 {
-    // Linha exibida na tabela de clientes da tela
+    
     public record ClienteResumo(int Id, string Nome, string Email, string Tipo, string Documento, string Cidade);
 
-    // SRP: só cuida das regras de cliente.
-    // DIP: recebe a fábrica de DbContext por injeção de dependência.
+    
     public class ClienteController
     {
         private readonly IDbContextFactory<LojaContext> _contextFactory;
