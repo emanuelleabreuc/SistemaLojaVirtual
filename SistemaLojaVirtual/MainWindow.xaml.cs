@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using SistemaLojaVirtual.Views;
+﻿using SistemaLojaVirtual.Views;
 using System.Windows;
 using System.Windows.Controls;
 
